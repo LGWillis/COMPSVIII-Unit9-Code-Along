@@ -19,4 +19,4 @@ steps:
   ] 
 
 options: 
-  logging: CLOUD_LOGGING_ONLY# Paste the backend cloudbuild-backend.yaml here
+  logging: CLOUD_LOGGING_ONLY
