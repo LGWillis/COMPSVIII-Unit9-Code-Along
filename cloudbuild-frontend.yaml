@@ -1,1 +1,32 @@
-# Paste the backend cloudbuild-frontend.yaml here
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '--build-arg'
+      - 'VITE_API_URL=https://app-backend-816722964208.us-central1.run.app'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/app-frontend'
+      - './frontend'
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'gcr.io/$PROJECT_ID/app-frontend'
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - 'run'
+      - 'deploy'
+      - 'app-frontend'
+      - '--image'
+      - 'gcr.io/$PROJECT_ID/app-frontend'
+      - '--platform'
+      - 'managed'
+      - '--region'
+      - 'us-central1'
+      - '--allow-unauthenticated'
+      - '--port'
+      - '80'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
